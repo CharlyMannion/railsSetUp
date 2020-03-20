@@ -32,7 +32,7 @@ A guide to setting up a basic Ruby on Rails Web Application, following a TDD app
 * Commit to Github at this stage
 
 ### Verify that rails is running (smoke test)
-* write a test for visiting the homepage. An example of this can be found here:
+* write a test for visiting the homepage. An example of this can be found here: https://github.com/CharlyMannion/railsSetUp/blob/master/spec/user_visits_homepage_spec.rb
 * run all tests in the test suite `rake`
 * Boot up the app locally `rails server`
 * Visit http://localhost:3000/
