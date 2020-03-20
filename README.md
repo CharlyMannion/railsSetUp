@@ -44,4 +44,6 @@ end`
 * An example of the routes used in a Todo app can be found hashed out at the bottom of this file: https://github.com/CharlyMannion/railsSetUp/blob/master/config/routes.rb
 * `rake`
 * You should get an error:        `uninitialized constant PostsController`
-* Create the controller:
+* Create the controller (in this example, the controller is called posts):
+`touch app/controllers/posts_controller.rb`
+* Find the example here: 
