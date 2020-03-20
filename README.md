@@ -1,24 +1,21 @@
-# README
+# Rails Set Up
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A guide to setting up a basic Ruby on Rails Web Application, following a TDD approach
 
-Things you may want to cover:
+## Instructions
 
-* Ruby version
+### Step 1 - basic set up
 
-* System dependencies
+* cd in to the directory
+* run `rails new railsSetUp -T`, replacing railsSetUp with whatever you want the directory to be called. The `-T` command skips setting up the test suite, as we will be using RSpec and Capybara
+* cd in to the directory `cd railsSetUp`
+* initialize git `git init`
+* Make an empty repository on your github page, with the same name as the local repository
+* merge the two: `git remote add origin [insert github url here]`
+* commit and push changes
+`git add .`
+`git commit -m "first commit"`
+`git push -u origin master`
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Step 2 - Gemfile
+* copy the Gemgile in this repository
