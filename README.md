@@ -60,11 +60,9 @@ end`
 ### Creating the first Post
 * Create a new spec for creating a post:
 `mkdir spec/features`
- `touch spec/features/user_creates_post_spec.rb`. See the example here:
-
+ `touch spec/features/user_creates_post_spec.rb`. See the example here: https://github.com/CharlyMannion/railsSetUp/blob/master/spec/features/user_creates_post_spec.rb
  * Run the test `rspec ./spec/features/user_creates_post_spec`
- * Open views/posts/index.html.erb and add the code required to make the test pass. The example can be found here:
-
+ * Open views/posts/index.html.erb and add the code required to make the test pass. The example can be found here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/views/posts/index.html.erb
  * Add the path to config/routes.rb
  `  resources :posts, only: :new`
  * You should be seeing this error 'The action 'new' could not be found
@@ -92,10 +90,7 @@ plate for request formats: text/html'
   <%= form.text_field :title %>
 <% end %>
 ```
-* New error: 'Migrations are pending. To resolve this iss
-ue, run:
-
-        rails db:migrate RAILS_ENV=test
+* New error: 'Migrations are pending. To resolve this issue, run: rails db:migrate RAILS_ENV=test
 No examples found.'
 * So, run `rake db:migrate`
 * New erorr: 'First argument in form cannot contain nil or be empty'. This means @post is nil
@@ -129,11 +124,7 @@ end
  ```
 * Add index to the list of actions
 `  resources :posts, only: [:index, :new, :create]`
-* New error: 'Failure/Error: expect(page).to have_css
-'.posts li', text: "My First Post"
-       expected to find visible css ".posts l
-i" with text "My First Post" but there were n
-o matches'
+* New error: 'Failure/Error: expect(page).to have_css '.posts li', text: "My First Post" expected to find visible css ".posts li" with text "My First Post" but there were no matches'
 * Build structure to create the post
 * Open index.html.erb, add a list and iterate over the posts and render an li:
 * New error: '       undefined method `each' for nil:NilClass'`
@@ -168,4 +159,6 @@ end
 * The test for this should now be passing
 * Run `rake`: '3 examples, 0 failures, 1 pending'
 * Remove spec/models.post_spec.rb
-* The test suite will now be green. Commit the changes to git 
+* The test suite will now be green
+* Run `rails server` to sense check the app
+* Commit the changes to git
