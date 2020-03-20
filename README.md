@@ -160,4 +160,4 @@ end
 * Remove spec/models.post_spec.rb
 * The test suite will now be green
 * Run `rails server` to sense check the app
-* Commit the changes to git
+* Commit and push the changes to git
