@@ -45,7 +45,7 @@ This guide provides instructions for creating an app that lets a user add post t
 end`
 * An example of the routes used in a Todo app can be found hashed out at the bottom of this file: https://github.com/CharlyMannion/railsSetUp/blob/master/config/routes.rb
 * `rake`
-* You should get an error:        `uninitialized constant PostsController`
+* You should get an error: `uninitialized constant PostsController`
 * Create the controller (in this example, the controller is called posts):
 `touch app/controllers/posts_controller.rb`
 * Find the PostController example document here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/controllers/posts_controller.rb
@@ -64,9 +64,9 @@ end`
  * Run the test `rspec ./spec/features/user_creates_post_spec`
  * Open views/posts/index.html.erb and add the code required to make the test pass. The example can be found here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/views/posts/index.html.erb
  * Add the path to config/routes.rb
- `  resources :posts, only: :new`
- * You should be seeing this error 'The action 'new' could not be found
-for PostsController'
+ `resources :posts, only: :new`
+ * You should be seeing this error: `The action 'new' could not be found
+for PostsController`
 * Add the new route to the posts controller, which will now look like this:
 ```
 class PostsController < ApplicationController
@@ -77,11 +77,10 @@ class PostsController < ApplicationController
   end
 end
 ```
-* The new error will be 'PostsController#new is missing a tem
-plate for request formats: text/html'
+* The new error will be `PostsController#new is missing a template for request formats: text/html`
 * Create the template `touch app/views/posts/new.html.erb`
-* New error: 'Unable to find visible field "Title"
- that is not disabled'
+* New error: `Unable to find visible field "Title"
+ that is not disabled`
 * Generate the model `rails g model Post title`
 * Open app/views/posts/new.html.erb, and add the following code to render the form:
 ```
@@ -90,20 +89,20 @@ plate for request formats: text/html'
   <%= form.text_field :title %>
 <% end %>
 ```
-* New error: 'Migrations are pending. To resolve this issue, run: rails db:migrate RAILS_ENV=test
-No examples found.'
+* New error: `Migrations are pending. To resolve this issue, run: rails db:migrate RAILS_ENV=test
+No examples found.`
 * So, run `rake db:migrate`
-* New erorr: 'First argument in form cannot contain nil or be empty'. This means @post is nil
+* New erorr: `First argument in form cannot contain nil or be empty`. This means @post is nil
 * Update the new method in PostController
 ```
 def new
   @post = Post.new
 end
 ```
-* New error: 'undefined method `posts_path''
+* New error: `undefined method 'posts_path'`
 * Add create to the resources in routes.rb
-`  resources :posts, only: [:new, :create]`
-* New error: 'Unable to find visible link or button "Submit"'
+`resources :posts, only: [:new, :create]`
+* New error: `Unable to find visible link or button "Submit"`
 * Add the submit button to the new form:
 ```
 <%= form_for @post do |form| %>
@@ -114,8 +113,8 @@ end
   </p>
 <% end %>
 ```
-* New error: 'The action 'create' could not be found
- for PostsController'
+* New error: `The action 'create' could not be found
+ for PostsController`
  * Add the create route to the PostsController
  ```
  def create
@@ -123,11 +122,11 @@ end
  end
  ```
 * Add index to the list of actions
-`  resources :posts, only: [:index, :new, :create]`
-* New error: 'Failure/Error: expect(page).to have_css '.posts li', text: "My First Post" expected to find visible css ".posts li" with text "My First Post" but there were no matches'
+`resources :posts, only: [:index, :new, :create]`
+* New error: `Failure/Error: expect(page).to have_css '.posts li', text: "My First Post" expected to find visible css ".posts li" with text "My First Post" but there were no matches`
 * Build structure to create the post
 * Open index.html.erb, add a list and iterate over the posts and render an li:
-* New error: '       undefined method `each' for nil:NilClass'`
+* New error: `undefined method 'each' for nil:NilClass`
 * Update the index method in PostController
 ```
 def index
@@ -157,7 +156,7 @@ class PostsController < ApplicationController
 end
 ```
 * The test for this should now be passing
-* Run `rake`: '3 examples, 0 failures, 1 pending'
+* Run `rake`: `3 examples, 0 failures, 1 pending`
 * Remove spec/models.post_spec.rb
 * The test suite will now be green
 * Run `rails server` to sense check the app
