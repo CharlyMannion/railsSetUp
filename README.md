@@ -1,6 +1,8 @@
 # Rails Set Up
 
-A guide to setting up a basic Ruby on Rails Web Application, following a TDD approach
+A guide to setting up a basic Ruby on Rails Web Application, following a TDD approach.
+
+This guide provides instructions for creating an app that lets a user add post to a web page.
 
 ## Instructions
 
@@ -53,4 +55,117 @@ end`
 * Open up app/views/layouts/application.html.erb and add the h1 css tag
 `<h1>Checking the Root</h1>`
 * Find the application view example here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/views/layouts/application.html.erb
-* Run `rake` and the entire test suite should be green 
+* Run `rake` and the entire test suite should be green
+
+### Creating the first Post
+* Create a new spec for creating a post:
+`mkdir spec/features`
+ `touch spec/features/user_creates_post_spec.rb`. See the example here:
+
+ * Run the test `rspec ./spec/features/user_creates_post_spec`
+ * Open views/posts/index.html.erb and add the code required to make the test pass. The example can be found here:
+
+ * Add the path to config/routes.rb
+ `  resources :posts, only: :new`
+ * You should be seeing this error 'The action 'new' could not be found
+for PostsController'
+* Add the new route to the posts controller, which will now look like this:
+```
+class PostsController < ApplicationController
+  def index
+  end
+
+  def new
+  end
+end
+```
+* The new error will be 'PostsController#new is missing a tem
+plate for request formats: text/html'
+* Create the template `touch app/views/posts/new.html.erb`
+* New error: 'Unable to find visible field "Title"
+ that is not disabled'
+* Generate the model `rails g model Post title`
+* Open app/views/posts/new.html.erb, and add the following code to render the form:
+```
+<%= form for @post do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+<% end %>
+```
+* New error: 'Migrations are pending. To resolve this iss
+ue, run:
+
+        rails db:migrate RAILS_ENV=test
+No examples found.'
+* So, run `rake db:migrate`
+* New erorr: 'First argument in form cannot contain nil or be empty'. This means @post is nil
+* Update the new method in PostController
+```
+def new
+  @post = Post.new
+end
+```
+* New error: 'undefined method `posts_path''
+* Add create to the resources in routes.rb
+`  resources :posts, only: [:new, :create]`
+* New error: 'Unable to find visible link or button "Submit"'
+* Add the submit button to the new form:
+```
+<%= form_for @post do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+  <p>
+    <%= form.submit "Submit" %>
+  </p>
+<% end %>
+```
+* New error: 'The action 'create' could not be found
+ for PostsController'
+ * Add the create route to the PostsController
+ ```
+ def create
+   redirect_to posts_path
+ end
+ ```
+* Add index to the list of actions
+`  resources :posts, only: [:index, :new, :create]`
+* New error: 'Failure/Error: expect(page).to have_css
+'.posts li', text: "My First Post"
+       expected to find visible css ".posts l
+i" with text "My First Post" but there were n
+o matches'
+* Build structure to create the post
+* Open index.html.erb, add a list and iterate over the posts and render an li:
+* New error: '       undefined method `each' for nil:NilClass'`
+* Update the index method in PostController
+```
+def index
+  @posts = Post.all
+end
+```
+* Update the create method in PostsController. The file should now like this:
+```
+class PostsController < ApplicationController
+  def index
+    @posts = Post.all
+  end
+
+  def new
+    @post = Post.new
+  end
+
+  def create
+    Post.create(post_params)
+    redirect_to posts_path
+  end
+
+  private
+  def post_params
+    params.require(:post).permit(:title)
+  end
+end
+```
+* The test for this should now be passing
+* Run `rake`: '3 examples, 0 failures, 1 pending'
+* Remove spec/models.post_spec.rb
+* The test suite will now be green. Commit the changes to git 
