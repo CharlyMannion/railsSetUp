@@ -18,4 +18,4 @@ A guide to setting up a basic Ruby on Rails Web Application, following a TDD app
 `git push -u origin master`
 
 ### Step 2 - Gemfile
-* copy the Gemgile in this repository
+* copy the Gemgile in this repository, found here https://github.com/CharlyMannion/railsSetUp/blob/master/Gemfile
