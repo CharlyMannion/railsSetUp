@@ -46,4 +46,11 @@ end`
 * You should get an error:        `uninitialized constant PostsController`
 * Create the controller (in this example, the controller is called posts):
 `touch app/controllers/posts_controller.rb`
-* Find the example here: 
+* Find the PostController example document here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/controllers/posts_controller.rb
+* Create the template (view)
+`mkdir app/views/posts`
+`touch app/views/posts/index.html.erb`
+* Open up app/views/layouts/application.html.erb and add the h1 css tag
+`<h1>Checking the Root</h1>`
+* Find the application view example here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/views/layouts/application.html.erb
+* Run `rake` and the entire test suite should be green 
