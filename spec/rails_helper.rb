@@ -7,8 +7,9 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-require 'support/features/sign_in'
-require 'support/features/todo'
+# see below for examples of support feature helpers
+# require 'support/features/sign_in'
+# require 'support/features/todo'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -63,5 +64,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  config.include Features, type: :feature
+
+  # unhash the below to enable Features:
+  # config.include Features, type: :feature
 end
