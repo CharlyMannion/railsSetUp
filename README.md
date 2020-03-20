@@ -25,5 +25,5 @@ A guide to setting up a basic Ruby on Rails Web Application, following a TDD app
 ### Step 3 - RSpec
 * Run `rails g` to see the list of RSpec commands
 * Run the command `rails g rspec:install` to set up the bare bones spec directory for the rails app
-* Open up spec/rails_helper.rb, and copy this repository's content
-* Open 
+* Open up spec/rails_helper.rb and copy this repository's content, which can be found here: https://github.com/CharlyMannion/railsSetUp/blob/master/spec/rails_helper.rb
+* Open .rspec, delete it's content and copy this repository's .rspec contents, which can be found here: https://github.com/CharlyMannion/railsSetUp/blob/master/.rspec
