@@ -33,7 +33,7 @@ This guide provides instructions for creating an app that lets a user add post t
 * Run `rake` and make sure the test suite is green, but without any examples
 * Commit to Github at this stage
 
-### Verify that rails is running (smoke test)
+### Step 4 - Verify that rails is running (smoke test)
 * write a test for visiting the homepage. An example of this can be found here: https://github.com/CharlyMannion/railsSetUp/blob/master/spec/user_visits_homepage_spec.rb
 * run all tests in the test suite `rake`
 * Boot up the app locally `rails server`
@@ -57,7 +57,7 @@ end`
 * Find the application view example here: https://github.com/CharlyMannion/railsSetUp/blob/master/app/views/layouts/application.html.erb
 * Run `rake` and the entire test suite should be green
 
-### Creating the first Post
+### Step 5 - Creating the first Post
 * Create a new spec for creating a post:
 `mkdir spec/features`
  `touch spec/features/user_creates_post_spec.rb`. See the example here: https://github.com/CharlyMannion/railsSetUp/blob/master/spec/features/user_creates_post_spec.rb
