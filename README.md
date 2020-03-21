@@ -79,8 +79,7 @@ end
 ```
 * The new error will be `PostsController#new is missing a template for request formats: text/html`
 * Create the template `touch app/views/posts/new.html.erb`
-* New error: `Unable to find visible field "Title"
- that is not disabled`
+* New error: `Unable to find visible field "Title" that is not disabled`
 * Generate the model `rails g model Post title`
 * Open app/views/posts/new.html.erb, and add the following code to render the form:
 ```
@@ -89,8 +88,7 @@ end
   <%= form.text_field :title %>
 <% end %>
 ```
-* New error: `Migrations are pending. To resolve this issue, run: rails db:migrate RAILS_ENV=test
-No examples found.`
+* New error: `Migrations are pending. To resolve this issue, run: rails db:migrate RAILS_ENV=test No examples found.`
 * So, run `rake db:migrate`
 * New erorr: `First argument in form cannot contain nil or be empty`. This means @post is nil
 * Update the new method in PostController
