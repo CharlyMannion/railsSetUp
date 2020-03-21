@@ -38,11 +38,13 @@ This guide provides instructions for creating an app that lets a user add post t
 * run all tests in the test suite `rake`
 * Boot up the app locally `rails server`
 * Visit http://localhost:3000/
-* Pass the test
+* Pass the test! See below:
 * Open config/routes.rb, and add the route to the homepage with the following code
-`Rails.application.routes.draw do
+```
+Rails.application.routes.draw do
   root to: "todos#index"
-end`
+end
+```
 * An example of the routes used in a Todo app can be found hashed out at the bottom of this file: https://github.com/CharlyMannion/railsSetUp/blob/master/config/routes.rb
 * `rake`
 * You should get an error: `uninitialized constant PostsController`
