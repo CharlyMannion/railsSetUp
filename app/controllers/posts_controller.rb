@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate
 
   def index
-    @posts = Post.where(email: session[:current_email])
+    @posts = Post.where(email: current_email)
   end
 
   def new
@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    Post.create(post_params.merge(email: session[:current_email]))
+    Post.create(post_params.merge(email: current_email))
     redirect_to posts_path
   end
 

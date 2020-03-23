@@ -359,3 +359,15 @@ def create
 end
 ```
 * All the tests should now pass
+
+### Step 8: Refactor the controllers
+* Add a current_email method to the Application controller that sets the current email in the session, then refactor the controllers to use calls to this method:
+```
+def current_email
+  session[:current_email]
+end
+
+def signed_in?
+  current_email.present?
+end
+```
