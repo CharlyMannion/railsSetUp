@@ -471,4 +471,6 @@ def destroy
 end
 ```
 * Add the route to config/routes.rb:
-`  resources :posts, only: [:index, :new, :create, :destroy]`
+```
+resources :posts, only: [:index, :new, :create, :destroy]
+```
