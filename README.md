@@ -427,3 +427,48 @@ class User
   end
 end
 ```
+
+### Step 10: Delete a Post:
+* Start by writing a test for the deletion of a post:
+`touch spec/features/user_deletes_post_spec.rb`:
+```
+require 'rails_helper'
+
+feature "User deletes a post" do
+  scenario "successfully" do
+    sign_in
+    click_on "Add a new post"
+    fill_in "Title", with: "Post to delete"
+    click_on "Submit"
+    click_on "Destroy"
+
+    expect(page).not_to have_css '.posts li', text: "Post to delete"
+  end
+end
+```
+* Update the posts view (app/views/posts/index.html.erb) to add a destroy button to each post:
+```
+<%= link_to "Add a new post", new_post_path %>
+
+<ul class="posts">
+  <% @posts.each do |post| %>
+  <li>
+    <%= post.title %>
+    <%= link_to 'Destroy', post_path(post),
+        method: :delete,
+        data: { confirm: 'Are you sure?' } %>
+  </li>
+  <% end %>
+</ul>
+```
+* Add a destroy route method to PostsController:
+```
+def destroy
+  @post = Post.find(params[:id])
+  @post.destroy
+
+  redirect_to posts_path
+end
+```
+* Add the route to config/routes.rb:
+`  resources :posts, only: [:index, :new, :create, :destroy]`
