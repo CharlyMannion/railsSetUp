@@ -302,7 +302,8 @@ feature "User sees own posts" do
 
     expect(page).not_to have_css ".posts li", text: "Day 8 in quarantine"
   end
-end```
+end
+```
 * Add the sign_in_as method to spec/support/features/sign_in.rb:
 ```
 module Features
