@@ -360,7 +360,7 @@ end
 ```
 * All the tests should now pass
 
-### Step 8: Refactor to move logic to a User model:
+### Step 8: Refactor the controllers:
 * Firstly, we will refactor the controllers
 * Add a current_email method to the Application controller that sets the current email in the session, then refactor the controllers to use calls to this method:
 ```
@@ -385,4 +385,44 @@ def signed_in_as(email)
   session[:current_email] = email
 end
 ```
-* Define the current user:
+### Step 9: Refactor to create a User model:
+* It would be better if we could refer to and interact with a user, not as en email address, but as a User object
+* Update the index method in PostsController to use a new object, current_user:
+```
+def index
+  @posts = current_user.posts
+end
+```
+* Update the create method in PostsController:
+```
+def create
+  current_user.posts.create(post_params)
+  redirect_to posts_path
+end
+```
+* New error: `undefined local variable or method 'current_user'`
+* We need to define the current_user, for now we will do this in ApplicationController:
+```
+def current_user
+end
+```
+* New error: `undefined method 'posts' for nil:NilClass`
+* We need to have current user return an object that has posts and can be interacted with. Update the method:
+```
+def current_user
+  User.new(current_email)
+end
+```
+* New error: `uninitialized constant ApplicationController::User`
+* Define the User class: `touch app/models/user.rb`:
+```
+class User
+  def initialize(email)
+    @email = email
+  end
+
+  def posts
+    Post.where(email: @email)
+  end
+end
+```
