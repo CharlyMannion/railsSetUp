@@ -274,3 +274,88 @@ def create
   redirect_to root_path
 end
 ```
+
+### Step 7: Add an email to the Post in the database
+* We need to associate an email address to each post in the database in order to only display the Posts of the signed in user
+* Create the migration adding email to posts:
+* run `rails g migration add_email_to_todos`
+* Open the migration (it will be in the app/db/migrate directory) and update the change method:
+```
+class AddEmailToTodos < ActiveRecord::Migration[6.0]
+  def change
+    add_column :posts, :email, :string
+  end
+end
+```
+* run `rake db:migrate`
+* Add a new test to verify that we're scoping this correctly
+* We will add a test that writes a post as a user, and check that the post does not show up when we sign in as a different user
+* `touch spec/features/user_sees_own_posts_spec.rb'
+
+``` require 'rails_helper'
+
+feature "User sees own posts" do
+  scenario "doesn't see others' posts" do
+    Post.create!(title: "Day 8 in quarantine", email: "someoneelse@example.com")
+
+    sign_in_as "someone@example.com"
+
+    expect(page).not_to have_css ".posts li", text: "Day 8 in quarantine"
+  end
+end```
+* Add the sign_in_as method to spec/support/features/sign_in.rb:
+```
+module Features
+  def sign_in
+    sign_in_as "person@example.com"
+  end
+
+  def sign_in_as(email)
+    visit root_path
+    fill_in "Email", with: email
+    click_on "Sign in"
+  end
+end
+```
+* Add the database cleaner gem to group test (it may already be in there if you have copied the gemfile example provided):
+`  gem 'database_cleaner'`
+* Configure database cleaner:
+`touch spec/support/database_cleaner.rb`
+```
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+end
+```
+* Update the index method in PostController so only the Posts associated with the signed in user are displayed:
+```
+def index
+  @posts = Post.where(email: session[:current_email])
+end
+```
+* New error, when you run full rake: `Failure/Error: expect(page).to have_css '.posts li', text: "My First Post"`
+* Add the email the creation of the Post:
+```
+def create
+  Post.create(post_params.merge(email: session[:current_email]))
+  redirect_to posts_path
+end
+```
+* All the tests should now pass
