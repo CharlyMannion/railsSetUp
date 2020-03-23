@@ -360,7 +360,8 @@ end
 ```
 * All the tests should now pass
 
-### Step 8: Refactor the controllers
+### Step 8: Refactor to move logic to a User model:
+* Firstly, we will refactor the controllers
 * Add a current_email method to the Application controller that sets the current email in the session, then refactor the controllers to use calls to this method:
 ```
 def current_email
@@ -371,3 +372,17 @@ def signed_in?
   current_email.present?
 end
 ```
+* Update the SessionsController to use a signed_in_as method:
+```
+def create
+  signed_in_as params[:session][:email]
+  redirect_to root_path
+end
+```
+* Define the signed_in_as method in ApplicationController:
+```
+def signed_in_as(email)
+  session[:current_email] = email
+end
+```
+* Define the current user:
