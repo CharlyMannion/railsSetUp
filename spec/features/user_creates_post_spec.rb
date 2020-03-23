@@ -3,10 +3,11 @@ require 'rails_helper'
 feature "User creates a post" do
   scenario "successfully" do
     visit "/"
+    sign_in
     click_on "Add a new post"
     fill_in "Title", with: "My First Post"
     click_on "Submit"
-    
+
     expect(page).to have_css '.posts li', text: "My First Post"
 
     # later this will be refactored to:

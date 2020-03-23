@@ -161,3 +161,116 @@ end
 * The test suite will now be green
 * Run `rails server` to sense check the app
 * Commit and push the changes to git
+
+### Step 6 Signing in and Post Ownership
+
+* Open spec/features/user_creates_post_spec.rb, replace `visit /` with a call to a method `sign_in`, that we will define ourselves, that will be used during the scenario:
+```
+require "rails_helper"
+
+feature "User visits homepage" do
+  scenario "successfully" do
+    sign_in
+    expect(page).to have_css "h1", text: 'Checking the Root'
+  end
+end
+```
+* `rake` will show that the method is undefined
+*  Create the spec in rspec:
+`mkdir spec/support`
+`mkdir spec/support/features`
+`touch spec/support/features/sign_in.rb`
+* In sign_in.rb (example found here: ):
+```
+module Features
+  def sign_in
+      visit root_path
+      fill_in "Email", with: "person@example.com"
+      click_on "Sign in"
+  end
+end
+```
+* Add a call to sign_in in the user_creates_post_spec.rb:
+```
+feature "User creates a post" do
+  scenario "successfully" do
+    visit "/"
+    sign_in
+    click_on "Add a new post"
+    fill_in "Title", with: "My First Post"
+    click_on "Submit"
+
+    expect(page).to have_css '.posts li', text: "My First Post"
+  end
+end
+```
+* Open up spec/rails_helper.rb and uncomment the code at the bottom that enables features i.e. `config.include Features, type: :features`
+* Also uncomment `Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }`
+* The error should now be: `Unable to find visible field "Email" that is not disabled`
+* Open up the posts controller and add the following line of code to the top of the class `before_action :authenticate`
+* The error is now: `undefined method 'authenticate' for #<PostsController:0x00007fa211a86eb0>`
+* Define the authenticate method and the signed_in? method in ApplicationController:
+```
+class ApplicationController < ActionController::Base
+  def authenticate
+    if !signed_in?
+      redirect_to new_session_path
+    end
+  end
+
+  def signed_in?
+    false
+  end
+end
+```
+* New error: `undefined local variable or method `new_session_path'`
+* Define the route:
+`resource :session, only: :new`
+* New error: `uninitialized constant SessionsController`
+* `touch app/controllers/sessions_controller.rb`:
+```
+class SessionsController < ApplicationController
+  def new
+  end
+end
+```
+* New error: `ActionController::MissingExactTemplate`
+* Create the view:
+`mkdir app/views/sessions`
+`touch app/views/sessions/new.html.erb`
+* New error: `Unable to find visible link or button "Add a new post"`
+* Create the form for our session within new.html.erb:
+```
+<%= form_for :session, url: session_path do |form| %>
+  <%= form.label :email %>
+  <%= form.text_field :email %>
+  <%= form.submit "Sign in" %>
+<% end %>
+```
+* Add create to the list of resources in routes:
+`resource :session, only: [:new, :create]`
+* Define the create method in sessions controller:
+```
+class SessionsController < ApplicationController
+  def new
+  end
+
+  def create
+    redirect_to root_path
+  end
+end
+```
+* New error: `Unable to find visible link or button "Add a new post"`
+* This is because signed_in? in ApplicationController currently always returns false. We need to change the logic to check to see if we know who the user is. Let us store the email in the session to solve this:
+```
+def signed_in?
+  session[:current_email].present?
+end
+```
+* We now need to save the email in the session at it's creation, in SessionsController:
+```
+def create
+  session[:current_email] = params[:session][:email]
+  redirect_to root_path
+end
+```
