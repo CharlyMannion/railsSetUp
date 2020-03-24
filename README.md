@@ -474,3 +474,64 @@ def destroy
   redirect_to posts_path
 end
 ```
+
+### Step 11: Update a Post
+* Start by writing the spec `touch spec/features/user_updates_post_spec.rb`:
+```
+require 'rails_helper'
+
+feature "User updates a post" do
+  scenario "successfully" do
+    sign_in
+    click_on "Add a new post"
+    fill_in "Title", with: "Post to edit"
+    click_on "Submit"
+    click_on "Edit"
+    fill_in "Title", with: "Edited post"
+    click_on "Submit"
+
+    expect(page).to have_css '.posts li', text: "Edited post"
+    expect(page).not_to have_css '.posts li', text: "Post to delete"
+  end
+end
+```
+* Create a form in views for editing a post `touch app/views/posts/edit.html.erb`:
+```
+<%= form_for @post, method: :patch do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+  <p>
+    <%= form.submit "Submit" %>
+  </p>
+<% end %>
+```
+* Add a link to this form to the index view: `<%= link_to 'Edit', edit_post_path(post) %>`
+* The index form will now look like this:
+```
+<% @posts.each do |post| %>
+<li>
+  <%= post.title %>
+  <%= link_to 'Edit', edit_post_path(post) %>
+  <%= link_to 'Destroy', post_path(post),
+      method: :delete,
+      data: { confirm: 'Are you sure?' } %>
+```
+* Write the methods for edit and update in the PostController:
+```
+def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+  @post = Post.find(params[:id])
+  if @post.update(post_params)
+    redirect_to posts_path
+  else
+    render 'edit'
+  end
+end
+```
+* Update `config/routes.rb`:
+```
+resources :posts, only: [:index, :new, :create, :edit, :update, :destroy]
+```
