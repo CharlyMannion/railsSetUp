@@ -461,6 +461,10 @@ end
   <% end %>
 </ul>
 ```
+* Add the route to config/routes.rb:
+```
+resources :posts, only: [:index, :new, :create, :destroy]
+```
 * Add a destroy route method to PostsController:
 ```
 def destroy
@@ -469,8 +473,4 @@ def destroy
 
   redirect_to posts_path
 end
-```
-* Add the route to config/routes.rb:
-```
-resources :posts, only: [:index, :new, :create, :destroy]
 ```
