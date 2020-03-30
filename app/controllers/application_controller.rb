@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  # helper_method :current_user
+
   def authenticate
     if !signed_in?
       redirect_to new_session_path
@@ -18,6 +20,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    User.new(current_email)
+    @current_user = User.new(current_email)
+    # p "displaying email of current user"
+    # p @current_user.email
   end
 end

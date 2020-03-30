@@ -14,6 +14,6 @@ feature "User sees own posts" do
     sign_in_as "someone@example.com"
 
     expect(page).to have_css ".posts li", text: "Day 15 in quarantine"
-    # expect(page).to have_content("someone@example.com")
+    expect(page).to have_content("someone@example.com")
   end
 end
