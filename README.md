@@ -535,3 +535,15 @@ end
 ```
 resources :posts, only: [:index, :new, :create, :edit, :update, :destroy]
 ```
+
+### Step 12 - Add user's identity to the Post
+* Write test:
+```
+scenario "the user's name is on their post" do
+  Post.create!(title: "Day 15 in quarantine", email: "someone@example.com")
+  sign_in_as "someone@example.com"
+
+  expect(page).to have_css ".posts li", text: "Day 15 in quarantine"
+  expect(page).to have_content("someone@example.com")
+end
+```
